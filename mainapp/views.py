@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main import process_data
+from main import process_data2
 # Create your views here.
 
 
@@ -8,7 +8,7 @@ def index(request):
         import pandas as pd
         csv = request.FILES['file']
         data = pd.read_csv(csv)
-        output = process_data(data)
+        output = process_data2(data)
         return render(request, 'results.html', {
             'output': output
         })

@@ -3,14 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
   <h2 class="text-center">Test Results</h2>
   <div class="container">
-    <div>
-      {{ output | safe }}
+
+<div class="accordion" id="accordionPanelsStayOpenExample">
+  {% for item in output %}
+  <div class="accordion-item my-2">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne{{ item.id }}">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne{{ item.id }}" aria-controls="panelsStayOpen-collapseOne{{ item.id }}">
+        <div style="flex-grow: 1; margin-right: 20px" class="d-flex align-center align-items-center justify-content-between">
+          <span>
+            <span style="opacity: 0.7">
+              Table Name:
+            </span>
+            <b class="text-dark" style="font-weight: 1.4rem">
+              {{ item.table }}
+            </b>
+          </span>
+
+          <span class="text-light btn {% if item.average >= .33 and item.average <= 0.67 %} bg-warning {% elif item.average > 0.67 %} bg-success {% else %}  bg-danger {% endif %}" >
+             {{ item.average }}
+          </span>
+        </div>
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseOne{{ item.id }}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne{{ item.id }}">
+      <div class="accordion-body">
+        {% for field in item.fields %}
+        <div class="d-flex my-2 align-items-center justify-content-between">
+          <span>
+            <span style="opacity: 0.7">
+              Field Name:
+            </span>
+            <b>
+                {{ field.field }}
+            </b>
+          </span>
+          <span class="text-light btn {% if field.regression_value >= .33 and field.regression_value <= 0.67 %} bg-warning {% elif field.regression_value > 0.67 %} bg-success {% else %}  bg-danger {% endif %}" >
+           {{ field.regression_value }}
+          </span>
+        </div>
+          <hr>
+        {% endfor %}
+      </div>
     </div>
+  </div>
+  {% endfor %}
+</div>
   </div>
 </body>
 </html>
